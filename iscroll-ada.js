@@ -1,4 +1,16 @@
 /*
+
+Repo of this js document:
+https://github.com/joelcardinal/iscroll-ada
+
+*/
+
+
+
+
+
+
+/*
 	Eventlistener polyfill for <IE9
 	https://developer.mozilla.org/en-US/docs/Web/API/EventTarget/addEventListener
 */
