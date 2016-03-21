@@ -348,9 +348,9 @@ var utils = (function () {
 	me.initScroll = function (){
 		
 		var containerElemId = arguments[0] || null,
-			options = arguments[1] || {scrollX: true, scrollY: false, snap: 'li.iscrollItemContainer', momentum: false},
+			options = arguments[1] || {scrollX: true, scrollY: false, snap: 'li.iscroll_item-container', momentum: false},
 			containerElemIdPndStr = '#' + containerElemId,
-			dotsExist = $((containerElemIdPndStr + ' .iscrollDots')).length > 0;
+			dotsExist = $((containerElemIdPndStr + ' .iscroll_dots')).length > 0;
 
 		// prevent re-initiating the carousel
 		if(IScroll.utils.carousels[containerElemId] || !containerElemId){return}
@@ -359,9 +359,9 @@ var utils = (function () {
 		function setScrollWidth(){
 			var scrollWidth;
 			if(arguments&&arguments.length){
-				scrollWidth = ( $((containerElemIdPndStr +' .iscrollItem')).length + $(arguments[0]).find('.iscrollItem').length ) * $($((containerElemIdPndStr +' .iscrollItem'))[0]).outerWidth();
+				scrollWidth = ( $((containerElemIdPndStr +' .iscroll_item')).length + $(arguments[0]).find('.iscroll_item').length ) * $($((containerElemIdPndStr +' .iscroll_item'))[0]).outerWidth();
 			}else{
-				scrollWidth = $((containerElemIdPndStr +' .iscrollItem')).length * $((containerElemIdPndStr +' .iscrollItem')).outerWidth();
+				scrollWidth = $((containerElemIdPndStr +' .iscroll_item')).length * $((containerElemIdPndStr +' .iscroll_item')).outerWidth();
 			}
 			$((containerElemIdPndStr + ' .iscroll')).css('width', scrollWidth);
 		}
@@ -369,13 +369,13 @@ var utils = (function () {
 		
 		// add data-index to 
 		function updateList(){
-			$.each($((containerElemIdPndStr +' li.iscrollItemContainer')),function(index){
+			$.each($((containerElemIdPndStr +' li.iscroll_item-container')),function(index){
 				if(!$(this).attr('data-index')){
 					$(this).attr('data-index',index);
 					if(dotsExist){
 						// must be done before carousel init
-						// create "dots" nav if <div class="iscrollDots"></div> exists
-						$((containerElemIdPndStr + ' .iscrollDots')).append('<button type="button" class="dots" data-index="'+index+'"><span class="adaHidden">scroll carousel to item '+(index+1)+'</span>&#8226;</button>');
+						// create "dots" nav if <div class="iscroll_dots"></div> exists
+						$((containerElemIdPndStr + ' .iscroll_dots')).append('<button type="button" class="dots" data-index="'+index+'"><span class="adaHidden">scroll carousel to item '+(index+1)+'</span>&#8226;</button>');
 					}					
 				}
 			});			
@@ -397,9 +397,9 @@ var utils = (function () {
 			if(Math.abs(myScroll.x) > Math.abs(myScroll.maxScrollX)/2 ){
 								
 				// load more items, test
-				var html = '<li class="iscrollItemContainer"><a class="iscrollItem" href="#"><img src="http://images.crocs.com/is/image/Crocs/10001_410_ALT100?$smstandard$" /><br>ajax shoe</a></li><li class="iscrollItemContainer"><a class="iscrollItem" href="#"><img src="http://images.crocs.com/is/image/Crocs/10001_410_ALT100?$smstandard$" /><br>ajax shoe</a></li>';				
+				var html = '<li class="iscroll_item-container"><a class="iscroll_item" href="#"><img src="http://images.crocs.com/is/image/Crocs/10001_410_ALT100?$smstandard$" /><br>ajax shoe</a></li><li class="iscroll_item-container"><a class="iscroll_item" href="#"><img src="http://images.crocs.com/is/image/Crocs/10001_410_ALT100?$smstandard$" /><br>ajax shoe</a></li>';				
 
-				$(containerElemIdPndStr + ' .iscrollWrapper ul').append(html);
+				$(containerElemIdPndStr + ' .iscroll_wrapper ul').append(html);
 				
 				setScrollWidth();
 				updateList();		
@@ -417,22 +417,22 @@ var utils = (function () {
 		*/
 
 		// init carousel
-		var scrollElem = document.querySelector((containerElemIdPndStr + ' .iscrollWrapper'));
+		var scrollElem = document.querySelector((containerElemIdPndStr + ' .iscroll_wrapper'));
 		var myScroll = new IScroll(scrollElem,options);
 
 		// need to update iScroll when user tabs through carousel items
-		$((containerElemIdPndStr + ' .iscrollItem')).on('focus',function(){
+		$((containerElemIdPndStr + ' .iscroll_item')).on('focus',function(){
 			var index = $(this).parent().attr('data-index');
 			myScroll.goToPage(index,0);
 		});
 
 		// prev
-		$((containerElemIdPndStr + ' .iscrollPrev')).on('click keydown',function(){
+		$((containerElemIdPndStr + ' .iscroll_prev')).on('click keydown',function(){
 			myScroll.prev();
 		});
 
 		// next
-		$((containerElemIdPndStr + ' .iscrollNext')).on('click keydown',function(e){
+		$((containerElemIdPndStr + ' .iscroll_next')).on('click keydown',function(e){
 			myScroll.next();
 			//testAndLoad();
 		});
@@ -441,7 +441,7 @@ var utils = (function () {
 			we need to trigger AJAX on swipe, iscroll event 'beforeScrollStart' does not
 			fire on last item touch swipe, below we listen for swipe start event
 
-		$(containerElemIdPndStr + ' .iscrollWrapper').on("touchstart pointerdown MSPointerDown mousedown", function(e){
+		$(containerElemIdPndStr + ' .iscroll_wrapper').on("touchstart pointerdown MSPointerDown mousedown", function(e){
 			testAndLoad();
 		});
 		*/
@@ -449,7 +449,7 @@ var utils = (function () {
 		
 
 		// must be done after carousel is init
-		// if <div class="iscrollDots"></div> exists add click event
+		// if <div class="iscroll_dots"></div> exists add click event
 		if(dotsExist){
 			$((containerElemIdPndStr + ' .dots')).on('click keydown',function(){
 				var index = $(this).attr('data-index');
@@ -468,7 +468,7 @@ var utils = (function () {
 	
 	me.refreshScroll = function (containerElemId){
 		var containerElemIdPndStr = '#' + containerElemId,
-			scrollWidth = $((containerElemIdPndStr +' li.iscrollItemContainer')).length * $((containerElemIdPndStr +' li.iscrollItemContainer')).outerWidth();
+			scrollWidth = $((containerElemIdPndStr +' li.iscroll_item-container')).length * $((containerElemIdPndStr +' li.iscroll_item-container')).outerWidth();
 		
 		// must first set scroller width
 		$((containerElemIdPndStr + ' .iscroll')).css('width', scrollWidth);

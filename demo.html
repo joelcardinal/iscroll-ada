@@ -12,9 +12,8 @@ body {
 	border: 1px solid #000;
 }
 </style>
-<script data-sandbox="http://dev1.na.crox.demandware.net/on/demandware.static/Sites-crocs_us-Site/-/default/v1431970317612/js/jquery.js" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script>
-<!-- <script src="http://joelcardinal.com/crocs/sliders/iscroll-crocs.js"></script> -->
-<script src="iscroll-crocs.js"></script> 
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script>
+<script src="iscroll-ada.js"></script> 
 </head>
 <body>
 <h2>Responsive Carousel</h2>
@@ -40,7 +39,7 @@ body {
 
 
 */
-.iscrollWrapper {
+.iscroll_wrapper {
 	position: relative;
 	width: 100%;
 	overflow: hidden;
@@ -79,7 +78,7 @@ body {
 	height: 100%;
 	font-size: 14px;
 }
-.iscroll li .iscrollItem {
+.iscroll li .iscroll_item {
 	width: 200px;
 	text-align: center;
 	display: block;
@@ -97,26 +96,26 @@ I don't think hover is required for ADA, focus is
 	border: solid 1px #000;
 }
 */
-.iscroll li .iscrollItem:focus {
+.iscroll li .iscroll_item:focus {
 	border: solid 1px #000;
 }
-.iscroll li .iscrollItem img {
+.iscroll li .iscroll_item img {
 	width:150px;
 	margin: auto;
 	border: 0;
 }
 
 /* if using bottom nav */
-.iscrollControl .iscrollPrev {
+.iscroll_control .iscroll_prev {
     display: inline-block;
 }
-.iscrollControl .iscrollNext {
+.iscroll_control .iscroll_next {
     display: inline-block;
 }
-.iscrollControl.bottom .iscrollDots {
+.iscroll_control.bottom .iscroll_dots {
 	display: inline-block;
 }
-.iscrollControl.bottom .iscrollDots .dots {
+.iscroll_control.bottom .iscroll_dots .dots {
     font-family: sans-serif;
     font-size: 30px;
 	cursor: pointer;
@@ -129,17 +128,17 @@ I don't think hover is required for ADA, focus is
 }
 /*
 I don't think hover is required for ADA, focus is
-.iscrollControl.bottom .iscrollDots .dots:hover {
+.iscroll_control.bottom .iscroll_dots .dots:hover {
 	text-decoration: underline;
 }
 */
-.iscrollControl.bottom .iscrollDots .dots:focus {
+.iscroll_control.bottom .iscroll_dots .dots:focus {
 	text-decoration: underline;
 }
-.iscrollControl.bottom {
+.iscroll_control.bottom {
 	text-align: center;
 }
-.iscrollControl .aquo {
+.iscroll_control .aquo {
 	font-size: 40px;
     font-family: sans-serif;
 	cursor: pointer;
@@ -154,31 +153,31 @@ I don't think hover is required for ADA, focus is
 
 /*
 I don't think hover is required for ADA, focus is
-.iscrollControl .aquo:hover {
+.iscroll_control .aquo:hover {
 	text-decoration: underline;
 }
 */
-.iscrollControl .aquo:focus {
+.iscroll_control .aquo:focus {
 	text-decoration: underline;
 }
-.iscrollControl.bottom .iscrollDots span {
+.iscroll_control.bottom .iscroll_dots span {
 	padding: 0 3px 0 3px;
 }
 
 /* if using side nav */
-.iscrollWrapper.side {
+.iscroll_wrapper.side {
 	width: 90%;
 	float: left;
 }
-.iscrollControl.sidePrev {
+.iscroll_control.sidePrev {
 	float: left;
 	width: 5%;
 }
-.iscrollControl.sideNext {
+.iscroll_control.sideNext {
 	float: right;
 	width: 5%;
 }
-.iscrollControl.sidePrev .aquo, .iscrollControl.sideNext .aquo {
+.iscroll_control.sidePrev .aquo, .iscroll_control.sideNext .aquo {
 	font-size: 60px;
     font-family: sans-serif;
     cursor: pointer;
@@ -216,10 +215,10 @@ I don't think hover is required for ADA, focus is
 
 /* media queries */
 @media (max-width: 640px) {
-  .iscrollControl {
+  .iscroll_control {
     display: none;
   }
-  .iscrollWrapper.side {
+  .iscroll_wrapper.side {
       width: 100%;
   }
 }
@@ -227,52 +226,51 @@ I don't think hover is required for ADA, focus is
 
 <div id="myCarouselContainer" class="noOpacity">
 <!--
-	1. id in div opening tag above must be unique, you will pass this to the initCarousel function.
+	1. id in div opening tag above must be unique, you will pass this to the initScroll function.
 	2. must use noOpacity class in div opening tag above, instead of display none. JS will make visible.
 	3. DO NOT CHANGE STRUCTURE BELOW:
-		a. do not edit or delete class names
-		b. any class rule changes will affect functionality and require QA
-		c. any class rule changes are required to be name-spaced with container id (above)
+		a. class names beginning with "iscroll" are required and editing may change function
+		b. any class rule changes should be name-spaced with container id (above)
 			#myCarouselContainer .dots { color: red }
-		d. li requires immediate child element with class "iscrollItem"
+		c. li requires immediate child element with class "iscroll_item"
 	4. ALL carousel items must be the same width!!! Best if with same height or else content will move.
 -->
 
 	<!-- "side" navigation -->	
-	<div class="iscrollControl sidePrev">
-		<button type="button" class="iscrollPrev aquo"><span class="adaHidden">move carousel to previous item</span>&laquo;</button>
+	<div class="iscroll_control sidePrev">
+		<button type="button" class="iscroll_prev aquo"><span class="adaHidden">move carousel to previous item</span>&laquo;</button>
 	</div>
 	
-	<div class="iscrollWrapper side"> <!-- remove class "side" if using bottom nav -->
+	<div class="iscroll_wrapper side"> <!-- remove class "side" if using bottom nav -->
 		<div class="iscroll">
 		    <ul aria-live="polite">
-			  <li class="iscrollItemContainer"><a class="iscrollItem" href="#"><img src="http://images.crocs.com/is/image/Crocs/10001_410_ALT100?$smstandard$" /><br>shoe #1</a></li>
-			  <li class="iscrollItemContainer"><a class="iscrollItem" href="#"><img src="http://images.crocs.com/is/image/Crocs/10001_410_ALT100?$smstandard$" /><br>shoe #2</a></li>
-			  <li class="iscrollItemContainer"><a class="iscrollItem" href="#"><img src="http://images.crocs.com/is/image/Crocs/10001_410_ALT100?$smstandard$" /><br>shoe #3</a></li>
-			  <li class="iscrollItemContainer"><a class="iscrollItem" href="#"><img src="http://images.crocs.com/is/image/Crocs/10001_410_ALT100?$smstandard$" /><br>shoe #4</a></li>
-			  <li class="iscrollItemContainer"><a class="iscrollItem" href="#"><img src="http://images.crocs.com/is/image/Crocs/10001_410_ALT100?$smstandard$" /><br>shoe #5</a></li>
-			  <li class="iscrollItemContainer"><a class="iscrollItem" href="#"><img src="http://images.crocs.com/is/image/Crocs/10001_410_ALT100?$smstandard$" /><br>shoe #6</a></li>
-			  <li class="iscrollItemContainer"><a class="iscrollItem" href="#"><img src="http://images.crocs.com/is/image/Crocs/10001_410_ALT100?$smstandard$" /><br>shoe #7</a></li>
-			  <li class="iscrollItemContainer"><a class="iscrollItem" href="#"><img src="http://images.crocs.com/is/image/Crocs/10001_410_ALT100?$smstandard$" /><br>shoe #8</a></li>
-			  <li class="iscrollItemContainer"><a class="iscrollItem" href="#"><img src="http://images.crocs.com/is/image/Crocs/10001_410_ALT100?$smstandard$" /><br>shoe #9</a></li>
-			  <li class="iscrollItemContainer"><a class="iscrollItem" href="#"><img src="http://images.crocs.com/is/image/Crocs/10001_410_ALT100?$smstandard$" /><br>shoe #10</a></li>
-			  <li class="iscrollItemContainer"><a class="iscrollItem" href="#"><img src="http://images.crocs.com/is/image/Crocs/10001_410_ALT100?$smstandard$" /><br>shoe #11</a></li>
-			  <li class="iscrollItemContainer"><a class="iscrollItem" href="#"><img src="http://images.crocs.com/is/image/Crocs/10001_410_ALT100?$smstandard$" /><br>shoe #12</a></li>
+			  <li class="iscroll_item-container"><a class="iscroll_item" href="#"><img src="http://images.crocs.com/is/image/Crocs/10001_410_ALT100?$smstandard$" /><br>shoe #1</a></li>
+			  <li class="iscroll_item-container"><a class="iscroll_item" href="#"><img src="http://images.crocs.com/is/image/Crocs/10001_410_ALT100?$smstandard$" /><br>shoe #2</a></li>
+			  <li class="iscroll_item-container"><a class="iscroll_item" href="#"><img src="http://images.crocs.com/is/image/Crocs/10001_410_ALT100?$smstandard$" /><br>shoe #3</a></li>
+			  <li class="iscroll_item-container"><a class="iscroll_item" href="#"><img src="http://images.crocs.com/is/image/Crocs/10001_410_ALT100?$smstandard$" /><br>shoe #4</a></li>
+			  <li class="iscroll_item-container"><a class="iscroll_item" href="#"><img src="http://images.crocs.com/is/image/Crocs/10001_410_ALT100?$smstandard$" /><br>shoe #5</a></li>
+			  <li class="iscroll_item-container"><a class="iscroll_item" href="#"><img src="http://images.crocs.com/is/image/Crocs/10001_410_ALT100?$smstandard$" /><br>shoe #6</a></li>
+			  <li class="iscroll_item-container"><a class="iscroll_item" href="#"><img src="http://images.crocs.com/is/image/Crocs/10001_410_ALT100?$smstandard$" /><br>shoe #7</a></li>
+			  <li class="iscroll_item-container"><a class="iscroll_item" href="#"><img src="http://images.crocs.com/is/image/Crocs/10001_410_ALT100?$smstandard$" /><br>shoe #8</a></li>
+			  <li class="iscroll_item-container"><a class="iscroll_item" href="#"><img src="http://images.crocs.com/is/image/Crocs/10001_410_ALT100?$smstandard$" /><br>shoe #9</a></li>
+			  <li class="iscroll_item-container"><a class="iscroll_item" href="#"><img src="http://images.crocs.com/is/image/Crocs/10001_410_ALT100?$smstandard$" /><br>shoe #10</a></li>
+			  <li class="iscroll_item-container"><a class="iscroll_item" href="#"><img src="http://images.crocs.com/is/image/Crocs/10001_410_ALT100?$smstandard$" /><br>shoe #11</a></li>
+			  <li class="iscroll_item-container"><a class="iscroll_item" href="#"><img src="http://images.crocs.com/is/image/Crocs/10001_410_ALT100?$smstandard$" /><br>shoe #12</a></li>
 		    </ul>
 		</div>
 	</div>
 
 	<!-- "side" navigation -->
-	<div class="iscrollControl sideNext">
-		<button type="button" class="iscrollNext aquo"><span class="adaHidden">move carousel to next item</span>&raquo;</button>
+	<div class="iscroll_control sideNext">
+		<button type="button" class="iscroll_next aquo"><span class="adaHidden">move carousel to next item</span>&raquo;</button>
 	</div>
 	
 	<!-- alternative "bottom" navigation -->
 	<!--
-		<div class="iscrollControl bottom">
-			<button type="button" class="iscrollPrev aquo"><span class="adaHidden">move carousel to previous item</span>&laquo;</button>
-			<div class="iscrollDots"></div>
-			<button type="button" class="iscrollNext aquo" tabindex="0"><span class="adaHidden">move carousel to next item</span>&raquo;</button>
+		<div class="iscroll_control bottom">
+			<button type="button" class="iscroll_prev aquo"><span class="adaHidden">move carousel to previous item</span>&laquo;</button>
+			<div class="iscroll_dots"></div>
+			<button type="button" class="iscroll_next aquo"><span class="adaHidden">move carousel to next item</span>&raquo;</button>
 		</div>
 	 -->
 
@@ -281,12 +279,19 @@ I don't think hover is required for ADA, focus is
 
 <script>
 $(document).ready(function(){
+	/*
+
+	Repo of this js document:
+	https://github.com/joelcardinal/iscroll-ada
+
+	*/
+	
 	/* example of initiating the carousel (custom helper method, reduces required JS boilerplate): */
 	IScroll.utils.initScroll('myCarouselContainer');
 	
 	/*
 		TODO: example of refreshing the carousel (after carousel contents have been dynamically changed via JS):
-		IScroll.crocs.refreshScroll('myCarouselContainer');
+		IScroll.utils.refreshScroll('myCarouselContainer');
 	*/
 });
 </script>
