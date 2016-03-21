@@ -1,4 +1,4 @@
-iScroll-AD
+iScroll-ADA
 ==============
 
 Altered build of iScroll v5.1.3 with helper methods and accessibility in mind.
