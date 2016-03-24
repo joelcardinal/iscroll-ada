@@ -6,10 +6,6 @@ https://github.com/joelcardinal/iscroll-ada
 */
 
 
-
-
-
-
 /*
 	Eventlistener polyfill for <IE9
 	https://developer.mozilla.org/en-US/docs/Web/API/EventTarget/addEventListener
@@ -375,7 +371,7 @@ var utils = (function () {
 					if(dotsExist){
 						// must be done before carousel init
 						// create "dots" nav if <div class="iscroll_dots"></div> exists
-						$((containerElemIdPndStr + ' .iscroll_dots')).append('<button type="button" class="dots" data-index="'+index+'"><span class="adaHidden">scroll carousel to item '+(index+1)+'</span>&#8226;</button>');
+						$((containerElemIdPndStr + ' .iscroll_dots')).append('<button type="button" class="dots" data-index="'+index+'"><span class="sr-only">scroll carousel to item '+(index+1)+'</span>&#8226;</button>');
 					}					
 				}
 			});			
