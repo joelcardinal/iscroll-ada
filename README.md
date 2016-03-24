@@ -1,7 +1,7 @@
 iScroll-ADA
 ==============
 
-Altered build of iScroll v5.1.3 with helper methods and accessibility in mind.
+Altered build of iScroll v5.1.3 (https://github.com/cubiq/iscroll) with helper methods and accessibility in mind.
 
 Includes
 ---------
