@@ -350,18 +350,39 @@ var utils = (function () {
 
 		// prevent re-initiating the carousel
 		if(IScroll.utils.carousels[containerElemId] || !containerElemId){return}
-		
-		// set scroller width
-		function setScrollWidth(){
+
+		// get scroller width
+		function getScrollWidth(){
 			var scrollWidth;
+			
 			if(arguments&&arguments.length){
 				scrollWidth = ( $((containerElemIdPndStr +' .iscroll_item')).length + $(arguments[0]).find('.iscroll_item').length ) * $($((containerElemIdPndStr +' .iscroll_item'))[0]).outerWidth();
 			}else{
 				scrollWidth = $((containerElemIdPndStr +' .iscroll_item')).length * $((containerElemIdPndStr +' .iscroll_item')).outerWidth();
 			}
+			return scrollWidth;
+		}
+
+		// show/hide nav
+		function toggleNav(scrollWidth){
+			var scrollWrapWidth = $(containerElemIdPndStr).find('.iscroll_wrapper').outerWidth();
+			if(scrollWidth < scrollWrapWidth){
+				// hide nav
+				$('.iscroll_control').hide();
+			}else{
+				// show nav
+				$('.iscroll_control').attr('style','');
+			}
+		}
+		
+		// set scroller width
+		function setScrollWidth(scrollWidth){
+			
+			toggleNav(scrollWidth);
+			
 			$((containerElemIdPndStr + ' .iscroll')).css('width', scrollWidth);
 		}
-		setScrollWidth();
+		setScrollWidth(getScrollWidth());
 		
 		// add data-index to 
 		function updateList(){
@@ -397,7 +418,7 @@ var utils = (function () {
 
 				$(containerElemIdPndStr + ' .iscroll_wrapper ul').append(html);
 				
-				setScrollWidth();
+				setScrollWidth(getScrollWidth());
 				updateList();		
 								
 				// iscroll states to wrap it in a setTimeout...go figure
@@ -410,6 +431,15 @@ var utils = (function () {
 			}
 
 		}
+		*/
+		
+		/*
+		
+		can't resize programmatically if locales change CSS or have different content
+		on resize/orient css queries change width, js triggers setWidth and refresh
+		
+		on init, if outerWidth < x, set item width to y
+		
 		*/
 
 		// init carousel
@@ -431,6 +461,12 @@ var utils = (function () {
 		$((containerElemIdPndStr + ' .iscroll_next')).on('click keydown',function(e){
 			myScroll.next();
 			//testAndLoad();
+		});
+		
+		// makes iScroll "responsive" to media queries
+		$(window).on('resize orientationchange', function(){
+			setScrollWidth(getScrollWidth());
+			myScroll.refresh();
 		});
 		
 		/*

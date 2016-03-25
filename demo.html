@@ -215,12 +215,22 @@ I don't think hover is required for ADA, focus is
 
 /* media queries */
 @media (max-width: 640px) {
-  .iscroll_control {
-    display: none;
-  }
-  .iscroll_wrapper.side {
-      width: 100%;
-  }
+	
+	/* we'll make the items smaller for mobile */
+	.iscroll li .iscroll_item img {
+		width:116px;
+	}
+	.iscroll li .iscroll_item {
+		width: 135px; /* really 202 with border */
+	}
+	
+	/* hide << >> and lengthen carousel for mobile*/
+	.iscroll_control {
+		display: none;
+	}
+	.iscroll_wrapper.side {
+		width: 100%;
+	}
 }
 </style>
 
@@ -234,6 +244,7 @@ I don't think hover is required for ADA, focus is
 			#myCarouselContainer .dots { color: red }
 		c. li requires immediate child element with class "iscroll_item"
 	4. ALL carousel items must be the same width!!! Best if with same height or else content will move.
+	5. DO NOT put inline styles (style="...") on div.iscroll_control, they will be removed progrommatically
 -->
 
 	<!-- "side" navigation -->	
