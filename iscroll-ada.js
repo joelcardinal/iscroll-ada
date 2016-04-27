@@ -443,7 +443,7 @@ var utils = (function () {
 		*/
 
 		// init carousel
-		var scrollElem = document.querySelector((containerElemIdPndStr + ' .iscroll_wrapper'));
+		var scrollElem = document.querySelector(containerElemIdPndStr + ' .iscroll_wrapper');
 		var myScroll = new IScroll(scrollElem,options);
 
 		// need to update iScroll when user tabs through carousel items
@@ -467,6 +467,11 @@ var utils = (function () {
 		$(window).on('resize orientationchange', function(){
 			setScrollWidth(getScrollWidth());
 			myScroll.refresh();
+		});
+		
+		// prevent link event if dragging carousel
+		$(containerElemIdPndStr + ' .iscroll_wrapper a').on('click', function(e){
+		    if(myScroll.moved ) e.preventDefault();
 		});
 		
 		/*
