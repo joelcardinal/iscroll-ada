@@ -157,7 +157,9 @@ var utils = (function () {
 
 		deceleration = deceleration === undefined ? 0.0006 : deceleration;
 
-		destination = current + ( speed * speed ) / ( 2 * deceleration ) * ( distance < 0 ? -1 : 1 );
+		//destination = current + ( speed * speed ) / ( 2 * deceleration ) * ( distance < 0 ? -1 : 1 );
+		// below change makes it a bit slower?
+		destination = current + ( speed * speed ) / ( 4 * deceleration ) * ( distance < 0 ? -1 : 1 );
 		duration = speed / deceleration;
 
 		if ( destination < lowerMargin ) {
@@ -344,7 +346,6 @@ var utils = (function () {
 	me.initScroll = function (){
 		
 		var containerElemId = arguments[0] || null,
-			//options = arguments[1] || {scrollX: true, scrollY: false, snap: 'li.iscroll_item-container', momentum: false},
 			options = getOptions(),
 			containerElemIdPndStr = '#' + containerElemId,
 			dotsExist = $((containerElemIdPndStr + ' .iscroll_dots')).length > 0;
@@ -352,6 +353,7 @@ var utils = (function () {
 		// prevent re-initiating the carousel
 		if(IScroll.utils.carousels[containerElemId] || !containerElemId){return}
 
+// momentum true, bounce false
 		function getOptions(){
 			if(arguments[1]){
 				if(isTouchDevice() && !arguments[1].eventPassthrough){
@@ -359,9 +361,9 @@ var utils = (function () {
 				}
 				return arguments[1];
 			}else if(isTouchDevice()){
-				return {eventPassthrough: true, scrollX: true, scrollY: false, snap: 'li.iscroll_item-container', momentum: false}
+				return {eventPassthrough: true, scrollX: true, scrollY: false, snap: 'li.iscroll_item-container', momentum: true, bounce: false}
 			}else{
-				return {scrollX: true, scrollY: false, snap: 'li.iscroll_item-container', momentum: false}
+				return {scrollX: true, scrollY: false, snap: 'li.iscroll_item-container', momentum: true, bounce: false}
 			}			
 		}
 
