@@ -351,9 +351,9 @@ var utils = (function () {
 			dotsExist = $((containerElemIdPndStr + ' .iscroll_dots')).length > 0;
 
 		// prevent re-initiating the carousel
+		// may need to revisit this depending on AJAX solution
 		if(IScroll.utils.carousels[containerElemId] || !containerElemId){return}
 
-// momentum true, bounce false
 		function getOptions(){
 			if(arguments[1]){
 				if(isTouchDevice() && !arguments[1].eventPassthrough){
@@ -408,14 +408,16 @@ var utils = (function () {
 		// add data-index to 
 		function updateList(){
 			$.each($((containerElemIdPndStr +' li.iscroll_item-container')),function(index){
-				if(!$(this).attr('data-index')){
-					$(this).attr('data-index',index);
+				var $this = $(this);
+				if(!$this.attr('data-index')){
+					$this.attr('data-index',index);
 					if(dotsExist){
 						// must be done before carousel init
 						// create "dots" nav if <div class="iscroll_dots"></div> exists
 						$((containerElemIdPndStr + ' .iscroll_dots')).append('<button type="button" class="dots" data-index="'+index+'"><span class="sr-only">scroll carousel to item '+(index+1)+'</span>&#8226;</button>');
 					}					
 				}
+				$this.find('.iscroll_item').attr('tabindex',0);
 			});			
 		}
 		updateList();
