@@ -344,12 +344,31 @@ var utils = (function () {
 	me.initScroll = function (){
 		
 		var containerElemId = arguments[0] || null,
-			options = arguments[1] || {scrollX: true, scrollY: false, snap: 'li.iscroll_item-container', momentum: false},
+			//options = arguments[1] || {scrollX: true, scrollY: false, snap: 'li.iscroll_item-container', momentum: false},
+			options = getOptions(),
 			containerElemIdPndStr = '#' + containerElemId,
 			dotsExist = $((containerElemIdPndStr + ' .iscroll_dots')).length > 0;
 
 		// prevent re-initiating the carousel
 		if(IScroll.utils.carousels[containerElemId] || !containerElemId){return}
+
+		function getOptions(){
+			if(arguments[1]){
+				if(isTouchDevice() && !arguments[1].eventPassthrough){
+					arguments[1].eventPassthrough = true;
+				}
+				return arguments[1];
+			}else if(isTouchDevice()){
+				return {eventPassthrough: true, scrollX: true, scrollY: false, snap: 'li.iscroll_item-container', momentum: false}
+			}else{
+				return {scrollX: true, scrollY: false, snap: 'li.iscroll_item-container', momentum: false}
+			}			
+		}
+
+		function isTouchDevice() {
+			// works on most browsers || works on IE10/11 and Surface
+			return 'ontouchstart' in window || navigator.maxTouchPoints;       
+		}
 
 		// get scroller width
 		function getScrollWidth(){
@@ -1997,10 +2016,10 @@ Indicator.prototype = {
 
 	_start: function (e) {
 		var point = e.touches ? e.touches[0] : e;
-
+		
 		e.preventDefault();
 		e.stopPropagation();
-
+		
 		this.transitionTime();
 
 		this.initiated = true;
@@ -2050,6 +2069,7 @@ Indicator.prototype = {
 
 		e.preventDefault();
 		e.stopPropagation();
+
 	},
 
 	_end: function (e) {
