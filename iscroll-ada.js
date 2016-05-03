@@ -492,9 +492,12 @@ var utils = (function () {
 			myScroll.refresh();
 		});
 		
-		// prevent link event if dragging carousel
-		$(containerElemIdPndStr + ' .iscroll_wrapper a').on('click', function(e){
-		    if(myScroll.moved ) e.preventDefault();
+		// prevent event firing on end of dragging carousel
+		$(containerElemIdPndStr + ' .iscroll_item-container, '+ containerElemIdPndStr + ' .iscroll_item-container *').on('click', function(e){
+		    if(myScroll.moved){
+				e.preventDefault();
+				e.stopPropagation();
+			}
 		});
 		
 		/*
