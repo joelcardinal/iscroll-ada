@@ -414,7 +414,35 @@ var utils = (function () {
 			}
 			
 		}		
-		
+
+		// gets new item index to go to for prev/next arrows
+		function getNewPageIndex(){
+			var numTotalItems = myScroll.pages.length;
+			var numItemsInView = myScroll.wrapperWidth / myScroll.pages[0][0].width;
+			// requirements state to count item in view if ~90% visible
+			var numItemsInViewAdj = (numItemsInView % 1) > 0.70 ? Math.ceil(numItemsInView) : Math.floor(numItemsInView);
+			var currentItem = myScroll.currentPage.pageX; // (starts at 0 -- won't reach full length)
+			if(arguments.length){
+				// next
+				var newPageIndex = currentItem + numItemsInViewAdj;
+				if(numTotalItems < newPageIndex){
+					// request is higher than exist, go to last
+					return myScroll.pages.length - 1;
+				}else{
+					return newPageIndex;
+				}
+			}else{
+				// prev
+				var newPageIndex = currentItem - numItemsInViewAdj
+				if(newPageIndex < 0){
+					// request is lower than exist, go to first
+					return 0;
+				}else{
+					return newPageIndex;
+				}
+			}			
+		}
+				
 		// set scroller width
 		function setScrollWidth(scrollWidth){
 			
@@ -503,12 +531,15 @@ var utils = (function () {
 
 		// prev
 		$((containerElemIdPndStr + ' .iscroll_prev')).on('click keydown',function(){
-			myScroll.prev();
+			myScroll.goToPage(getNewPageIndex(),0);
+			//myScroll.prev(); just goes to next immediate item
 		});
 
 		// next
 		$((containerElemIdPndStr + ' .iscroll_next')).on('click keydown',function(e){
-			myScroll.next();
+			myScroll.goToPage(getNewPageIndex('next'),0);
+			//myScroll.next(); just goes to prev immediate item
+			
 			//testAndLoad();
 		});
 		
