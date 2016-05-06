@@ -395,6 +395,25 @@ var utils = (function () {
 				$('.iscroll_control').attr('style','');
 			}
 		}
+
+		// updates arrow color
+		function updateNextPrevArrowColor(){
+			// reset arrows
+			$(containerElemIdPndStr +' .iscroll_prev.aquo, '+ containerElemIdPndStr +' .iscroll_next.aquo').removeAttr('aria-disabled');
+			$(containerElemIdPndStr +' .iscroll_prev.aquo, '+ containerElemIdPndStr +' .iscroll_next.aquo').removeClass('iscroll_nav_disable');
+			
+			if(myScroll.x === 0){
+				// grey prev
+				$(containerElemIdPndStr +' .iscroll_prev.aquo').attr('aria-disable','true');
+				$(containerElemIdPndStr +' .iscroll_prev.aquo').addClass('iscroll_nav_disable');
+			}
+			if(Math.abs(myScroll.x) >= Math.abs(myScroll.maxScrollX)){
+				// gray next
+				$(containerElemIdPndStr +' .iscroll_next.aquo').attr('aria-disable','true');
+				$(containerElemIdPndStr +' .iscroll_next.aquo').addClass('iscroll_nav_disable');
+			}
+			
+		}		
 		
 		// set scroller width
 		function setScrollWidth(scrollWidth){
@@ -403,9 +422,8 @@ var utils = (function () {
 			
 			$((containerElemIdPndStr + ' .iscroll')).css('width', scrollWidth);
 		}
-		setScrollWidth(getScrollWidth());
 		
-		// add data-index to 
+		// add data-index
 		function updateList(){
 			$.each($((containerElemIdPndStr +' li.iscroll_item-container')),function(index){
 				var $this = $(this);
@@ -420,7 +438,6 @@ var utils = (function () {
 				$this.find('.iscroll_item').attr('tabindex',0);
 			});			
 		}
-		updateList();
 		
 		/*
 			TODO: trigger AJAX loading of more items
@@ -465,10 +482,19 @@ var utils = (function () {
 		
 		*/
 
+		// perform some pre-requirements
+		setScrollWidth(getScrollWidth());
+		updateList();
+
 		// init carousel
 		var scrollElem = document.querySelector(containerElemIdPndStr + ' .iscroll_wrapper');
 		var myScroll = new IScroll(scrollElem,options);
 
+		// event listener to update arrow color
+		myScroll.on('scrollEnd', updateNextPrevArrowColor);
+		// set initial state
+		updateNextPrevArrowColor();
+		
 		// need to update iScroll when user tabs through carousel items
 		$((containerElemIdPndStr + ' .iscroll_item')).on('focus',function(){
 			var index = $(this).parent().attr('data-index');
