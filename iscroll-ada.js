@@ -386,13 +386,17 @@ var utils = (function () {
 
 		// show/hide nav
 		function toggleNav(scrollWidth){
-			var scrollWrapWidth = $(containerElemIdPndStr).find('.iscroll_wrapper').outerWidth();
-			if(scrollWidth < scrollWrapWidth){
+			var scrollWrapWidth = $(containerElemIdPndStr).find('.iscroll_wrapper').outerWidth(),
+				itemWidth = $($(containerElemIdPndStr).find('.iscroll_item')[0]).outerWidth(),
+				numItems = $(containerElemIdPndStr +' .iscroll_item').length,
+				itemsTotalWidth = numItems * itemWidth;
+			// if screen is narrow (mobile) or all items fit in carousel view, hide controls
+			if(scrollWidth < scrollWrapWidth || itemsTotalWidth < scrollWrapWidth){
 				// hide nav
-				$('.iscroll_control').hide();
+				$(containerElemIdPndStr + ' .iscroll_control').hide();
 			}else{
 				// show nav
-				$('.iscroll_control').attr('style','');
+				$(containerElemIdPndStr + '.iscroll_control').attr('style','');
 			}
 		}
 
@@ -517,17 +521,17 @@ var utils = (function () {
 		// init carousel
 		var scrollElem = document.querySelector(containerElemIdPndStr + ' .iscroll_wrapper');
 		var myScroll = new IScroll(scrollElem,options);
-
-		// event listener to update arrow color
-		myScroll.on('scrollEnd', updateNextPrevArrowColor);
-		// set initial state
-		updateNextPrevArrowColor();
 		
 		// need to update iScroll when user tabs through carousel items
 		$((containerElemIdPndStr + ' .iscroll_item')).on('focus',function(){
 			var index = $(this).parent().attr('data-index');
 			myScroll.goToPage(index,0);
 		});
+
+		// set initial arrow color
+		updateNextPrevArrowColor();
+		// event listener to update arrow color
+		myScroll.on('scrollEnd', updateNextPrevArrowColor);
 
 		// prev
 		$((containerElemIdPndStr + ' .iscroll_prev')).on('click keydown',function(){
@@ -545,11 +549,12 @@ var utils = (function () {
 		
 		// makes iScroll "responsive" to media queries
 		$(window).on('resize orientationchange', function(){
+			updateNextPrevArrowColor();
 			setScrollWidth(getScrollWidth());
 			myScroll.refresh();
 		});
 		
-		// prevent event firing on end of dragging carousel
+		// prevent event firing on end of touch dragging carousel
 		$(containerElemIdPndStr + ' .iscroll_item-container, '+ containerElemIdPndStr + ' .iscroll_item-container *').on('click', function(e){
 		    if(myScroll.moved){
 				e.preventDefault();
