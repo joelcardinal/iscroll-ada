@@ -426,18 +426,19 @@ var utils = (function () {
 			// requirements state to count item in view if ~90% visible
 			var numItemsInViewAdj = (numItemsInView % 1) > 0.70 ? Math.ceil(numItemsInView) : Math.floor(numItemsInView);
 			var currentItem = myScroll.currentPage.pageX; // (starts at 0 -- won't reach full length)
+			var newPageIndex = 0;
 			if(arguments.length){
 				// next
-				var newPageIndex = currentItem + numItemsInViewAdj;
+				newPageIndex = currentItem + numItemsInViewAdj;
 				if(numTotalItems < newPageIndex){
 					// request is higher than exist, go to last
-					return myScroll.pages.length - 1;
+					return (Number(myScroll.pages.length) - 1);
 				}else{
 					return newPageIndex;
 				}
 			}else{
 				// prev
-				var newPageIndex = currentItem - numItemsInViewAdj
+				newPageIndex = (Number(currentItem) - numItemsInViewAdj);
 				if(newPageIndex < 0){
 					// request is lower than exist, go to first
 					return 0;
