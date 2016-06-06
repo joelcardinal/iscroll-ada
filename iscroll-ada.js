@@ -404,16 +404,19 @@ var utils = (function () {
 		function updateNextPrevArrowColor(){
 			// reset arrows
 			$(containerElemIdPndStr +' .iscroll_prev.aquo, '+ containerElemIdPndStr +' .iscroll_next.aquo').removeAttr('aria-disabled');
+			$(containerElemIdPndStr +' .iscroll_prev.aquo, '+ containerElemIdPndStr +' .iscroll_next.aquo').removeAttr('tabIndex');
 			$(containerElemIdPndStr +' .iscroll_prev.aquo, '+ containerElemIdPndStr +' .iscroll_next.aquo').removeClass('iscroll_nav_disable');
 			
 			if(myScroll.x === 0){
 				// grey prev
-				$(containerElemIdPndStr +' .iscroll_prev.aquo').attr('aria-disable','true');
+				$(containerElemIdPndStr +' .iscroll_prev.aquo').attr('aria-disabled','true');
+				$(containerElemIdPndStr +' .iscroll_prev.aquo').attr('tabIndex','-1');
 				$(containerElemIdPndStr +' .iscroll_prev.aquo').addClass('iscroll_nav_disable');
 			}
 			if(Math.abs(myScroll.x) >= Math.abs(myScroll.maxScrollX)){
 				// gray next
-				$(containerElemIdPndStr +' .iscroll_next.aquo').attr('aria-disable','true');
+				$(containerElemIdPndStr +' .iscroll_next.aquo').attr('aria-disabled','true');
+				$(containerElemIdPndStr +' .iscroll_next.aquo').attr('tabIndex','-1');
 				$(containerElemIdPndStr +' .iscroll_next.aquo').addClass('iscroll_nav_disable');
 			}
 			
