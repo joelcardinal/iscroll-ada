@@ -1,0 +1,333 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<style>
+body {
+	padding: 20px;
+	margin: 0;
+}
+.resource:focus {
+	border: 1px solid #000;
+}
+</style>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script>
+<script src="iscroll-ada.js"></script> 
+</head>
+<body>
+<h2>Responsive Carousel</h2>
+<a class="resource" style="margin: 60px 0;display: block;" href="#">non-functional, test link</a>
+<!-- https://www.w3.org/WAI/tutorials/carousels/functionality/ -->
+
+
+
+
+<!-- BEGIN CAROUSEL -->
+
+<div style="clear:both;"></div>
+<style>
+/*
+
+- Changes to carousel styling below ('.iscroll...') will affect functionality of carousel and would need QA if attempted
+
+- Any changes should be name-spaced with your container id (e.g.):
+
+	#myCarouselContainer .dots {
+		color: red
+	}
+
+
+*/
+.iscroll_wrapper {
+	position: relative;
+	width: 100%;
+	overflow: hidden;
+}
+.iscroll {
+	/* DO NOT SET WIDTH HERE - AUTOMATICALLY DONE BY JS */
+    position: relative;
+	-webkit-transform: translateZ(0);
+	-moz-transform: translateZ(0);
+	-ms-transform: translateZ(0);
+	-o-transform: translateZ(0);
+	transform: translateZ(0);
+	-webkit-touch-callout: none;
+	-webkit-user-select: none;
+	-moz-user-select: none;
+	-ms-user-select: none;
+	user-select: none;
+	-webkit-text-size-adjust: none;
+	-moz-text-size-adjust: none;
+	-ms-text-size-adjust: none;
+	-o-text-size-adjust: none;
+	text-size-adjust: none;
+}
+.iscroll ul {
+	list-style: none;
+	padding: 0;
+	margin: 0;
+	width: 100%;
+	height: 100%;
+	text-align: center;
+}
+
+.iscroll li {
+	display: block;
+	float: left;
+	height: 100%;
+	font-size: 14px;
+}
+.iscroll li .iscroll_item {
+	width: 200px;
+	text-align: center;
+	display: block;
+	/* we use a transparent border to keep consistent width, so on focus doesn't make items jump */
+	border: solid 1px;
+	border-color: #FFF; /* fallback */
+	border-color: rgba(255, 255, 255, 0);
+	outline: 0;
+	color: #000;
+	text-decoration: none;
+}
+/*
+I don't think hover is required for ADA, focus is
+.iscroll li .iscrollItem:hover {
+	border: solid 1px #000;
+}
+*/
+.iscroll li .iscroll_item:focus {
+	border: solid 1px #000;
+}
+.iscroll li .iscroll_item img {
+	width:150px;
+	margin: auto;
+	border: 0;
+}
+
+/* if using bottom nav */
+.iscroll_control .iscroll_prev {
+    display: inline-block;
+}
+.iscroll_control .iscroll_next {
+    display: inline-block;
+}
+.iscroll_control.bottom .iscroll_dots {
+	display: inline-block;
+}
+.iscroll_control.bottom .iscroll_dots .dots {
+    font-family: sans-serif;
+    font-size: 30px;
+	cursor: pointer;
+	outline: 0;
+	-webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+    border: none;
+    background: none;
+}
+/*
+I don't think hover is required for ADA, focus is
+.iscroll_control.bottom .iscroll_dots .dots:hover {
+	text-decoration: underline;
+}
+*/
+.iscroll_control.bottom .iscroll_dots .dots:focus {
+	text-decoration: underline;
+}
+.iscroll_control.bottom {
+	clear: left;
+	text-align: center;
+}
+.iscroll_control .aquo {
+	font-size: 40px;
+    font-family: sans-serif;
+	cursor: pointer;
+	outline: 0;
+	/* below, remove native browser styling of buttons */
+	-webkit-appearance: none;
+	-moz-appearance: none;
+	appearance: none;
+	border: none;
+	background: none;
+}
+
+/*
+I don't think hover is required for ADA, focus is
+.iscroll_control .aquo:hover {
+	text-decoration: underline;
+}
+*/
+.iscroll_control .aquo:focus {
+	text-decoration: underline;
+}
+.iscroll_control.bottom .iscroll_dots span {
+	padding: 0 3px 0 3px;
+}
+
+/* if using side nav */
+.iscroll_wrapper.side {
+	width: 90%;
+	float: left;
+}
+.iscroll_control.sidePrev {
+	float: left;
+	width: 5%;
+}
+.iscroll_control.sideNext {
+	float: right;
+	width: 5%;
+}
+.iscroll_control.sidePrev .aquo, .iscroll_control.sideNext .aquo {
+	font-size: 60px;
+    font-family: sans-serif;
+    cursor: pointer;
+    outline: 0;
+    width: 100%;
+    height: 100px;
+	text-align: center;
+	padding-top: 30px; /* will need to be overridden for differing carousels */
+}
+
+/* misc. */
+.sr-only { /* screen reader only */
+	position: absolute !important;
+	clip: rect(1px 1px 1px 1px); /* IE6, IE7 */
+	clip: rect(1px, 1px, 1px, 1px);
+	padding:0 !important;
+	border:0 !important;
+	height: 1px !important;
+	width: 1px !important;
+	overflow: hidden;
+}
+
+.noOpacity {
+	opacity: 0;
+	/* opacity fallbacks */
+	/* IE 8 */
+	-ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=0)";
+	/* IE 5-7 */
+	filter: alpha(opacity=0);
+	/* Netscape */
+	-moz-opacity: 0;
+	/* Safari 1.x */
+	-khtml-opacity: 0;
+}
+.iscroll_nav_disable {
+	color: #ccc;
+}
+.iscroll_nav_disable:focus {
+	text-decoration: none;
+}
+
+/* media queries */
+@media (max-width: 640px) {
+	
+	/* we'll make the items smaller for mobile */
+	.iscroll li .iscroll_item img {
+		width:116px;
+	}
+	.iscroll li .iscroll_item {
+		width: 135px; /* really 202 with border */
+	}
+	
+	/* hide << >> and lengthen carousel for mobile*/
+	.iscroll_control {
+		display: none;
+	}
+	.iscroll_wrapper.side {
+		width: 100%;
+	}
+}
+</style>
+
+<div id="myCarouselContainer" class="noOpacity">
+<!--
+	1. id in div opening tag above must be unique, you will pass this to the initScroll function.
+	2. must use noOpacity class in div opening tag above, instead of display none. JS will make visible.
+	3. DO NOT CHANGE STRUCTURE BELOW:
+		a. class names beginning with "iscroll" are required and editing may change function
+		b. any class rule changes should be name-spaced with container id (above)
+			#myCarouselContainer .dots { color: red }
+		c. li requires immediate child element with class "iscroll_item"
+	4. ALL carousel items must be the same width!!! Best if with same height or else content will move.
+	5. DO NOT put inline styles (style="...") on div.iscroll_control, they will be removed progrommatically
+-->
+
+	<!-- "side" navigation -->	
+	<div class="iscroll_control sidePrev">
+		<button type="button" class="iscroll_prev aquo"><span class="sr-only">previous item</span><span aria-hidden=”true”>&laquo;</span></button>
+	</div>
+	
+	<div class="iscroll_wrapper side"> <!-- remove class "side" if using bottom nav -->
+		<div class="iscroll">
+		    <ul aria-live="polite">
+				<!--
+					Element for class="iscroll_item" does not have to be an <a>, however,
+					if like recommendations the carousel item should link to a URL, use as
+					shown below.
+					
+					For example, if this was going to be a carousel of videos, you could change
+					the <a> element to a <div>
+				-->
+				<li class="iscroll_item-container"><a class="iscroll_item" href="#"><img src="http://images.crocs.com/is/image/Crocs/10001_410_ALT100?$smstandard$" alt="" /><br>shoe #1</a></li>
+				<li class="iscroll_item-container"><a class="iscroll_item" href="#"><img src="http://images.crocs.com/is/image/Crocs/10001_410_ALT100?$smstandard$" alt="" /><br>shoe #2</a></li>
+				<li class="iscroll_item-container"><a class="iscroll_item" href="#"><img src="http://images.crocs.com/is/image/Crocs/10001_410_ALT100?$smstandard$" alt="" /><br>shoe #3</a></li>
+				<li class="iscroll_item-container"><a class="iscroll_item" href="#"><img src="http://images.crocs.com/is/image/Crocs/10001_410_ALT100?$smstandard$" alt="" /><br>shoe #4</a></li>
+				<li class="iscroll_item-container"><a class="iscroll_item" href="#"><img src="http://images.crocs.com/is/image/Crocs/10001_410_ALT100?$smstandard$" alt="" /><br>shoe #5</a></li>
+				<li class="iscroll_item-container"><a class="iscroll_item" href="#"><img src="http://images.crocs.com/is/image/Crocs/10001_410_ALT100?$smstandard$" alt="" /><br>shoe #6</a></li>
+				<li class="iscroll_item-container"><a class="iscroll_item" href="#"><img src="http://images.crocs.com/is/image/Crocs/10001_410_ALT100?$smstandard$" alt="" /><br>shoe #7</a></li>
+				<li class="iscroll_item-container"><a class="iscroll_item" href="#"><img src="http://images.crocs.com/is/image/Crocs/10001_410_ALT100?$smstandard$" alt="" /><br>shoe #8</a></li>
+				<li class="iscroll_item-container"><a class="iscroll_item" href="#"><img src="http://images.crocs.com/is/image/Crocs/10001_410_ALT100?$smstandard$" alt="" /><br>shoe #9</a></li>
+				<li class="iscroll_item-container"><a class="iscroll_item" href="#"><img src="http://images.crocs.com/is/image/Crocs/10001_410_ALT100?$smstandard$" alt="" /><br>shoe #10</a></li>
+				<li class="iscroll_item-container"><a class="iscroll_item" href="#"><img src="http://images.crocs.com/is/image/Crocs/10001_410_ALT100?$smstandard$" alt="" /><br>shoe #11</a></li>
+				<li class="iscroll_item-container"><a class="iscroll_item" href="#"><img src="http://images.crocs.com/is/image/Crocs/10001_410_ALT100?$smstandard$" alt="" /><br>shoe #12</a></li>
+			</ul>
+		</div>
+	</div>
+
+	<!-- "side" navigation -->
+	<div class="iscroll_control sideNext">
+		<button type="button" class="iscroll_next aquo"><span class="sr-only">next item</span><span aria-hidden=”true”>&raquo;</span></button>
+	</div>
+	
+	<!-- alternative "bottom" navigation -->
+
+		<div class="iscroll_control bottom">
+			<button type="button" class="iscroll_prev aquo"><span class="sr-only">previous item</span><span aria-hidden=”true”>&laquo;</span></button>
+			<div class="iscroll_dots"></div>
+			<button type="button" class="iscroll_next aquo"><span class="sr-only">next item</span><span aria-hidden=”true”>&raquo;</span></button>
+		</div>
+
+
+</div>
+<div style="clear:both;"></div> <!-- required -->
+
+<script>
+$(document).ready(function(){
+	/*
+
+	Repo of this js document:
+	https://github.com/joelcardinal/iscroll-ada
+
+	*/
+	var width = $('.iscroll_wrapper ul').width();
+	$('.iscroll_item').css('width',width);
+	/* example of initiating the carousel (custom helper method, reduces required JS boilerplate): */
+	IScroll.utils.initScroll('myCarouselContainer');
+	
+	/*
+		TODO: example of refreshing the carousel (after carousel contents have been dynamically changed via JS):
+		IScroll.utils.refreshScroll('myCarouselContainer');
+	*/
+});
+</script>
+
+<!-- END CAROUSEL -->
+
+
+
+
+<a tabindex="0" class="resource" style="margin: 60px 0;display: block;" href="#">non-functional, test link</a>
+</body>
+</html>
